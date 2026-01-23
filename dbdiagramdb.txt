@@ -1,0 +1,116 @@
+/*To be able to view this, use dbdiagram*/
+/*https://dbdiagram.io/*/
+  Table User {
+    id integer [primary key]
+    email varchar [not null]
+    Username varchar [not null]
+    password varchar [note: "encrypted", not null]
+  }
+
+  Table Production {
+    id integer [primary key]
+    type enum [note: "Movie, series"]
+    title varchar [not null]
+    director_id integer
+    producing_countries_id integer
+  }
+
+  Table series {
+    production_id integer [primary key]
+    season integer
+    episode integer
+    status  enum [note: 'ongoing; finished']
+  }
+
+  Table Artist [note: "if an Artist is linked to a director_id, it will be a realisator, if it is in a casting, it will be an actor (so anyone can be both)"] {
+    id integer [primary key]
+    firstname varchar [not null]
+    lastname varchar [not null]
+    birthdate date
+    deathdate date
+    gender enum [note: "Male; Female; Non Binary; Other"]
+    nationality varchar
+  }
+
+  Table Streaming_Platform {
+    id integer [primary key]
+    name varchar [not null]
+    webadress varchar [note: 'website']
+    logo_url varchar [note: "licence free url of the website"]
+  }
+
+  Table Production_Review {
+    id integer [pk]
+    user_id integer [not null]
+    production_id integer [not null]
+    note integer [not null]
+    comment text
+  }
+
+  Table Artist_Review {
+    id integer [pk]
+    user_id integer [not null]
+    artist_id integer [not null]
+    note integer [not null]
+    comment text
+  }
+
+  Table Casting {
+    production_id integer [not null]
+    artist_id integer [not null]
+  }
+
+  Table Genre {
+    id integer  [primary key]
+    name varchar [not null]
+  }
+
+  Table Production_Genre {
+    genre_id integer [not null]
+    production id [not null]
+  }
+
+  Table Country {
+    id integer [primary key]
+    name varchar [not null]
+  }
+
+  Table Watch_later {
+    user_id integer [not null]
+    production_id integer [not null]
+  }
+
+  Table Availability {
+    id integer [primary key]
+    streaming_platform_id integer [not null]
+    production_id integer [not null]
+    expiration_date date [not null]
+  }
+
+  Ref: "Artist"."id" < "Casting"."artist_id"
+
+  Ref: "Artist"."id" < "Artist_Review"."artist_id"
+
+  Ref: "Country"."id" - "Artist"."nationality"
+
+  Ref: "Country"."id" - "Production"."producing_countries_id"
+
+  Ref: "Genre"."id" < "Production_Genre"."genre_id"
+
+  Ref: "Production"."id" < "Casting"."production_id"
+
+  Ref: "Production"."id" < "Availability"."production_id"
+
+  Ref: "Production"."id" < "Production_Genre"."production"
+
+  Ref: "Production"."id" < "Production_Review"."production_id"
+
+  Ref: "Production"."id" < "series"."production_id"
+
+  Ref: "Streaming_Platform"."id" < "Availability"."streaming_platform_id"
+
+  Ref: "User"."id" < "Artist_Review"."user_id"
+
+  Ref: "User"."id" < "Production_Review"."user_id"
+
+  Ref: "User"."id" < "Watch_later"."user_id"
