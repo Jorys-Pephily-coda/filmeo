@@ -1,5 +1,5 @@
-/*To be able to view this, use dbdiagram*/
-/*https://dbdiagram.io/*/
+  /*To be able to view this, use dbdiagram*/
+  /*https://dbdiagram.io/*/
   Table User {
     id integer [primary key]
     email varchar [not null]
