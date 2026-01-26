@@ -1,0 +1,19 @@
+spring.application.name=filmeo
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+
+spring.datasource.url=jdbc:mariadb://localhost:3306/filmeo
+
+
+spring.datasource.username=YOURUSER
+spring.datasource.password=YOURPASSWORD
+
+spring.jpa.show-sql=true 
+spring.jpa.hibernate.ddl-auto=create
+# spring.jpa.hibernate.ddl-auto=update
+
+server.port=8888
+
+# spring.devtools.restart.enabled=true
+# spring.devtools.livereload.enabled=true
+
+spring.thymeleaf.cache=false
