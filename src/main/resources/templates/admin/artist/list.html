@@ -1,0 +1,35 @@
+<main th:fragment="content">
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Birth</th>
+                <th>Death</th>
+                <th>Gender</th>
+            </tr>
+        </thead>   
+    
+        <tbody>
+            <tr th:if="${artists}" th:each="artist: ${artists}">
+$                <td th:text="${artist.lastname + ' ' + artist.name}"></td>
+                <td th:text="${artist.birthday + ' - ' + artist.death}"></td>   
+                <td >
+                    <a th:href="@{/admin/artists/{id}(id=${artist.id})}">Link</a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/artists/{id}/delete(id=${artist.id})}" onClick="return confirm('Confirmer la suppression')">Delete</a>
+                </td>
+                
+            </tr>
+            <tr th:if="${artist}">
+                <td th:text="${artist.id}"></td>
+                <td th:text="${artist.lastname + ' ' + artist.name}"></td>
+                <td th:text="${artist.birthday + ' - ' + artist.death}"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</main>
+  
+  

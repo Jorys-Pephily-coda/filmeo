@@ -1,5 +1,6 @@
 package com.filmeo.filmeo.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import org.antlr.v4.runtime.misc.NotNull;
@@ -22,6 +23,13 @@ public class User {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
+    private List<String> roles = new ArrayList<String>();
+
+    public void addRole(String role) {
+        this.roles.add(role);
+    }
 
     @Column(nullable = false, unique = true)
     private String username;
