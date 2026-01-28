@@ -1,12 +1,11 @@
 package com.filmeo.filmeo.tools;
 
+import com.filmeo.filmeo.model.entity.User;
+import com.filmeo.filmeo.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import com.filmeo.filmeo.model.entity.User;
-import com.filmeo.filmeo.model.repository.UserRepository;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -28,7 +27,9 @@ public class DataInitializer implements CommandLineRunner {
             adminUser.addRole("ADMIN");
             adminUser.addRole("USER");
             userRepository.save(adminUser);
-            System.out.println("✓ Admin user created: username=admin, password=admin123");
+            System.out.println(
+                "✓ Admin user created: username=admin, password=admin123"
+            );
         }
 
         // Create default public user if it doesn't exist
@@ -39,7 +40,9 @@ public class DataInitializer implements CommandLineRunner {
             publicUser.setPassword(passwordEncoder.encode("user123"));
             publicUser.addRole("USER");
             userRepository.save(publicUser);
-            System.out.println("✓ Test user created: username=user, password=user123");
+            System.out.println(
+                "✓ Test user created: username=user, password=user123"
+            );
         }
     }
 }
