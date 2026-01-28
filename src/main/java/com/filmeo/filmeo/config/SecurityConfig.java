@@ -30,20 +30,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            // IMPORTANT: Spring Security authorization configuration
+            // This defines which URLs require which roles/authorities to access
             .authorizeHttpRequests(auth -> auth
-                // public routes
+                // PUBLIC ROUTES: Anyone can access these (authenticated or not)
                 .requestMatchers("/", "/home", "/login", "/register", "/do-login", "/do-register", "/connexion", "/inscription").permitAll()
                 .requestMatchers("/productions/**", "/artists/**", "/search").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                 
+                // ADMIN ROUTES: Only users with ADMIN role can access
+                // NOTE: hasRole("ADMIN") looks for "ROLE_ADMIN" in the authorities list
+                // If your admin account stores role as ["ADMIN", "USER"], Spring Security 
+                // automatically prefixes "ROLE_" making it ["ROLE_ADMIN", "ROLE_USER"]
+                // Make sure your ConnectedUser.getAuthorities() returns authorities with "ROLE_" prefix
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 
+                // USER ROUTES: Users with either USER or ADMIN role can access
+                // This uses hasAnyRole() which checks for multiple roles
                 .requestMatchers("/profile/**", "/watchlist/**", "/reviews/**").hasAnyRole("USER", "ADMIN")
                 
+                // CATCH-ALL: Any other request requires authentication (must be logged in)
+                // This doesn't check roles, just that user is authenticated
                 .anyRequest().authenticated()
             )
             
-            // Configuration CSRF (désactivé pour simplifier - à activer en prod)
             .csrf(csrf -> csrf.disable())
             
             // login form
@@ -77,7 +87,7 @@ public class SecurityConfig {
                 .key(REMEMBER_ME_KEY)
                 .tokenValiditySeconds(86400 * 30)  // 30 days
                 .rememberMeParameter("remember-me")
-                /*.userDetailsService(userDetailsService)*/
+                .userDetailsService(userDetailsService)
             )
         ;
         
