@@ -10,7 +10,8 @@ import lombok.Data;
 @Entity
 @Data
 public class Genre {
-    @Id 
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

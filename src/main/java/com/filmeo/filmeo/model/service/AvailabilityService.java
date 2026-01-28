@@ -1,14 +1,13 @@
 package com.filmeo.filmeo.model.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.filmeo.filmeo.model.entity.Availability;
 import com.filmeo.filmeo.model.repository.AvailabilityRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AvailabilityService {
+
     @Autowired
     private AvailabilityRepository availabilityRepository;
 
@@ -16,9 +15,10 @@ public class AvailabilityService {
         return availabilityRepository.findAll();
     }
 
-
     public Availability getById(int id) {
-        Optional<Availability> Availability = availabilityRepository.findById(id);
+        Optional<Availability> Availability = availabilityRepository.findById(
+            id
+        );
         return Availability.orElse(new Availability());
     }
 
@@ -28,6 +28,5 @@ public class AvailabilityService {
 
     public void delete(Availability availability) {
         availabilityRepository.delete(availability);
-    }   
-    
+    }
 }

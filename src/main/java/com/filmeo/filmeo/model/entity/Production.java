@@ -12,7 +12,8 @@ import lombok.Data;
 @Entity
 @Data
 public class Production {
-    @Id 
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

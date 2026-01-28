@@ -28,6 +28,11 @@ public class UserService {
         return User.orElse(new User());
     }
 
+    public User getByUsername(String username) {
+        Optional<User> User = userRepository.findByUsername(username);
+        return User.orElse(new User());
+    }
+
     public User update(User user) {
         return userRepository.save(user);
     }

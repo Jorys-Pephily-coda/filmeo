@@ -1,21 +1,19 @@
 package com.filmeo.filmeo.model.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.filmeo.filmeo.model.entity.Genre;
 import com.filmeo.filmeo.model.repository.GenreRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class GenreService {
+
     @Autowired
     private GenreRepository genreRepository;
 
     public List<Genre> getAll() {
         return genreRepository.findAll();
     }
-
 
     public Genre getById(int id) {
         Optional<Genre> Genre = genreRepository.findById(id);
@@ -28,6 +26,5 @@ public class GenreService {
 
     public void delete(Genre genre) {
         genreRepository.delete(genre);
-    }   
-    
+    }
 }

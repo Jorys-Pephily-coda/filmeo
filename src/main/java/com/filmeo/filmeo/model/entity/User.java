@@ -1,8 +1,5 @@
 package com.filmeo.filmeo.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.Column;
@@ -14,13 +11,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 
 @Entity
 @Data
 public class User {
 
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -47,9 +46,10 @@ public class User {
     private Country nationality;
 
     @ManyToMany
-    @JoinTable(name = "watch_list",
-                joinColumns = { @JoinColumn(name = "user_id") },
-                inverseJoinColumns = { @JoinColumn(name = "production_id") }
-              )
+    @JoinTable(
+        name = "watch_list",
+        joinColumns = { @JoinColumn(name = "user_id") },
+        inverseJoinColumns = { @JoinColumn(name = "production_id") }
+    )
     public List<Production> watchList;
-}    
+}

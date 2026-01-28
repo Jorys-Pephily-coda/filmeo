@@ -2,14 +2,18 @@ package com.filmeo.filmeo.model.entity;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-// 💬 ⚠ ce n'est pas une entité    
+// 💬 ⚠ ce n'est pas une entité
 public class ConnectedUser implements UserDetails {
 
+    private static final Logger logger = LoggerFactory.getLogger(
+        ConnectedUser.class
+    );
     private final User user;
 
     public ConnectedUser(User user) {
@@ -18,9 +22,29 @@ public class ConnectedUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role))
-                .collect(Collectors.toList());
+        // IMPORTANT: Spring Security expects authorities to be prefixed with "ROLE_"
+        // If database stores roles as "ADMIN", we need to convert to "ROLE_ADMIN"
+        // This is required for:
+        // 1. @PreAuthorize/@PostAuthorize annotations with hasRole()
+        // 2. SecurityConfig.hasRole() method calls (which auto-prefix "ROLE_")
+        // 3. Thymeleaf sec:authorize="hasRole('ROLE_ADMIN')" directives
+        var authorities = user
+            .getRoles()
+            .stream()
+            .map(role -> {
+                String roleWithPrefix = role.startsWith("ROLE_")
+                    ? role
+                    : "ROLE_" + role;
+                return new SimpleGrantedAuthority(roleWithPrefix);
+            })
+            .collect(Collectors.toList());
+
+        logger.debug(
+            "User '{}' loaded with authorities: {}",
+            user.getUsername(),
+            authorities
+        );
+        return authorities;
     }
 
     @Override
@@ -53,5 +77,4 @@ public class ConnectedUser implements UserDetails {
     public boolean isEnabled() {
         return true /* user.isEnabled() */;
     }
-
 }

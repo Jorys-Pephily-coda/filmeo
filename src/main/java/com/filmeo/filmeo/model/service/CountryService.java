@@ -1,21 +1,19 @@
 package com.filmeo.filmeo.model.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.filmeo.filmeo.model.entity.Country;
 import com.filmeo.filmeo.model.repository.CountryRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CountryService {
+
     @Autowired
     private CountryRepository countryRepository;
 
     public List<Country> getAll() {
         return countryRepository.findAll();
     }
-
 
     public Country getById(int id) {
         Optional<Country> Country = countryRepository.findById(id);
@@ -28,6 +26,5 @@ public class CountryService {
 
     public void delete(Country country) {
         countryRepository.delete(country);
-    }   
-    
+    }
 }
