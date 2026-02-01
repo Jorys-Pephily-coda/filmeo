@@ -24,7 +24,7 @@ public class ArtistReview {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    private String note;
+    private Integer note;
 
     private String comment;
 }

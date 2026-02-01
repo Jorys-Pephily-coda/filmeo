@@ -18,7 +18,7 @@ public class StreamingPlatform {
     @Column(nullable = false, unique = true)
     private String name;
 
-    private String webaddress;
+    private String webAddress;
 
     private String logoUrl;
 }
