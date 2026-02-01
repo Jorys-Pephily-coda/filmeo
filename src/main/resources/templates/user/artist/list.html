@@ -25,15 +25,12 @@
     </head>
     <body>
         <main>
-            <a th:href="@{/admin/artists/add}" class="btn btn-sm btn-primary">
-                <i class="fa fa-add"></i>
-            </a>
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>parameters</th>
+                        <th>Lien</th>
                     </tr>
                 </thead>
 
@@ -42,22 +39,9 @@
                         <td th:text="${artist.firstname}"></td>
                         <td th:text="${artist.lastname}"></td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a
-                                        th:href="@{/admin/artists/edit/{id}(id = ${artist.id})}"
-                                        class="btn btn-sm btn-primary"
-                                        ><i class="fa fa-edit"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        th:href="@{/admin/artists/delete/{id}(id = ${artist.id})}"
-                                        class="btn btn-sm btn-danger"
-                                        ><i class="fa fa-trash"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            <a th:href="@{/artists/{id}(id = ${artist.id})}">
+                                Lien</a
+                            >
                         </td>
                     </tr>
                 </tbody>

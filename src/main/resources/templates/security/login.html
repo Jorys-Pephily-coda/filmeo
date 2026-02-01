@@ -1,35 +1,42 @@
-<h1 th:switch="${mode}" class="text-center alert alert-primary">Identification</h1>
+<h1 th:switch="${mode}" class="text-center alert alert-primary">
+    Identification
+</h1>
 
 <div class="d-flex justify-content-center">
-<form method="post" action="/do-login">
-    <div class="d-flex flex-column">
-        <div class="col form-group">
-            <label for="username">Nom</label>
-            <input type="text" name="username" class="form-control">
+    <form method="post" action="/do-login">
+        <div class="d-flex flex-column">
+            <div class="col form-group">
+                <label for="username">Nom</label>
+                <input type="text" name="username" class="form-control" />
+            </div>
+
+            <div class="col form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" class="form-control" />
+            </div>
         </div>
 
-        <div class="col form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" class="form-control">
+        <div class="row">
+            <div class="form-group">
+                <label for="remember-me">Garder la session ouverte</label>
+                <input
+                    type="checkbox"
+                    name="remember-me"
+                    id="remember-me"
+                    class=""
+                />
+            </div>
         </div>
-    </div>
 
-    <div class="row ">
-        <div class="form-group">
-            <label for="remember-me">Garder la session ouverte</label>
-            <input type="checkbox" name="remember-me" id="remember-me" class="">
+        <!-- BOUTONS -->
+        <div class="d-flex mt-5 justify-content-between">
+            <button class="btn btn-success">
+                <i class="fa fa-save"></i> Envoyer
+            </button>
+
+            <button onclick="history.back()" class="btn btn-danger">
+                <i class="fa fa-reply"></i> Annuler
+            </button>
         </div>
-    </div>
-
-    <!-- BOUTONS -->
-    <div class="d-flex mt-5 justify-content-between">
-        <button  class="btn btn-success">
-            <i class="fa fa-save"></i> Envoyer
-        </button>
-
-        <button onclick="history.back()" class="btn btn-danger">
-            <i class="fa fa-reply"></i> Annuler
-        </button>
-    </div>
-</form>
+    </form>
 </div>

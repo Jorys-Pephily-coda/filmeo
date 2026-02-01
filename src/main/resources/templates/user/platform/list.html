@@ -25,14 +25,17 @@
     </head>
     <body>
         <main>
-            <a th:href="@{/admin/artists/add}" class="btn btn-sm btn-primary">
-                <i class="fa fa-add"></i>
+            <a th:href="@{/admin/artist/add}" class="btn btn-sm btn-primary"
+                ><i class="fa fa-add"></i>
             </a>
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Birth</th>
+                        <th>Death</th>
                         <th>parameters</th>
                     </tr>
                 </thead>
@@ -41,18 +44,21 @@
                     <tr th:if="${artists}" th:each="artist: ${artists}">
                         <td th:text="${artist.firstname}"></td>
                         <td th:text="${artist.lastname}"></td>
+                        <td th:text="${artist.gender}"></td>
+                        <td th:text="${artist.birthDate}"></td>
+                        <td th:text="${artist.deathDate}"></td>
                         <td>
                             <ul>
                                 <li>
                                     <a
-                                        th:href="@{/admin/artists/edit/{id}(id = ${artist.id})}"
+                                        th:href="@{/admin/artist/edit/${artist.id}}"
                                         class="btn btn-sm btn-primary"
                                         ><i class="fa fa-edit"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        th:href="@{/admin/artists/delete/{id}(id = ${artist.id})}"
+                                        th:href="@{/admin/artist/delete/${artist.id}}"
                                         class="btn btn-sm btn-danger"
                                         ><i class="fa fa-trash"></i>
                                     </a>

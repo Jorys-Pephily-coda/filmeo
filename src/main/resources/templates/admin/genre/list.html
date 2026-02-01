@@ -25,34 +25,32 @@
     </head>
     <body>
         <main>
-            <a th:href="@{/admin/artists/add}" class="btn btn-sm btn-primary">
-                <i class="fa fa-add"></i>
+            <a th:href="@{/admin/genres/add}" class="btn btn-sm btn-primary"
+                ><i class="fa fa-add"></i>
             </a>
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Name</th>
                         <th>parameters</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:if="${artists}" th:each="artist: ${artists}">
-                        <td th:text="${artist.firstname}"></td>
-                        <td th:text="${artist.lastname}"></td>
+                    <tr th:if="${genres}" th:each="genre: ${genres}">
+                        <td th:text="${genre.name}"></td>
                         <td>
                             <ul>
                                 <li>
                                     <a
-                                        th:href="@{/admin/artists/edit/{id}(id = ${artist.id})}"
+                                        th:href="@{/admin/genres/edit/{id}(id = ${genre.id})}"
                                         class="btn btn-sm btn-primary"
                                         ><i class="fa fa-edit"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        th:href="@{/admin/artists/delete/{id}(id = ${artist.id})}"
+                                        th:href="@{/admin/genres/delete/{id}(id = ${genre.id})}"
                                         class="btn btn-sm btn-danger"
                                         ><i class="fa fa-trash"></i>
                                     </a>
