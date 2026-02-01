@@ -1,17 +1,16 @@
 package com.filmeo.filmeo.model.service;
 
+import com.filmeo.filmeo.model.entity.User;
+import com.filmeo.filmeo.model.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.filmeo.filmeo.model.entity.User;
-import com.filmeo.filmeo.model.repository.UserRepository;
-
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -21,7 +20,6 @@ public class UserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
-
 
     public User getById(int id) {
         Optional<User> User = userRepository.findById(id);
@@ -43,7 +41,6 @@ public class UserService {
 
     public void register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
 
         String userRole = "PUBLIC";
         user.addRole(userRole);
