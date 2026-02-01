@@ -1,5 +1,6 @@
 package com.filmeo.filmeo.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
 import java.util.List;
 import lombok.Data;
 
@@ -58,4 +61,7 @@ public class Production {
 
     @OneToMany(mappedBy = "production")
     private List<ProductionReview> reviews;
+
+    @OneToOne(mappedBy = "production", cascade = CascadeType.ALL)
+    private Series seriesDetails; 
 }

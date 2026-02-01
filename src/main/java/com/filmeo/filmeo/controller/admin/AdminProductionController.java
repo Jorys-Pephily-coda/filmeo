@@ -4,8 +4,10 @@ import com.filmeo.filmeo.model.entity.Artist;
 import com.filmeo.filmeo.model.entity.Availability;
 import com.filmeo.filmeo.model.entity.Genre;
 import com.filmeo.filmeo.model.entity.Production;
+import com.filmeo.filmeo.model.entity.Series;
 import com.filmeo.filmeo.model.service.ArtistService;
 import com.filmeo.filmeo.model.service.AvailabilityService;
+import com.filmeo.filmeo.model.service.CountryService;
 import com.filmeo.filmeo.model.service.GenreService;
 import com.filmeo.filmeo.model.service.ProductionService;
 import com.filmeo.filmeo.model.service.StreamingPlatformService;
@@ -40,6 +42,9 @@ public class AdminProductionController {
     @Autowired
     private ArtistService artistService;
 
+    @Autowired
+    private CountryService countryService;
+
     @GetMapping
     public String listProductions(Model templateModel) {
         List<Production> productions = productionService.getAll();
@@ -58,6 +63,18 @@ public class AdminProductionController {
         return "base.html";
     }
 
+    @GetMapping("/add")
+    public String form(Model model) {
+        Production production = new Production();
+        production.setSeriesDetails(new Series()); // ← IMPORTANT : initialise seriesDetails
+        
+        model.addAttribute("production", production);
+        model.addAttribute("artists", artistService.getAll());
+        model.addAttribute("countries", countryService.getAll());
+        
+        return "admin/production/form";
+    }
+
     @PostMapping("/add")
     public String addProduction(
         @ModelAttribute Production production,
@@ -66,16 +83,36 @@ public class AdminProductionController {
     ) {
         if (br.hasErrors()) {
             model.addAttribute("production", production);
-            model.addAttribute("content", "admin/production/form");
-            return "base";
+            model.addAttribute("artists", artistService.getAll());
+            model.addAttribute("countries", countryService.getAll());
+            return "admin/production/form";
         }
+        
+        // Si c'est un film, on supprime seriesDetails
+        if ("movie".equals(production.getType())) {
+            production.setSeriesDetails(null);
+        } else if (production.getSeriesDetails() != null) {
+            // Si c'est une série, on lie production à seriesDetails
+            production.getSeriesDetails().setProduction(production);
+        }
+        
         productionService.update(production);
         return "redirect:/admin/productions";
     }
 
-    @GetMapping("/add")
-    public String form(Model model) {
-        model.addAttribute("production", new Production());
+    @GetMapping("/edit/{id}")
+    public String formEdit(@PathVariable Integer id, Model model) {
+        Production production = productionService.getById(id);
+        
+        // Si c'est une série mais seriesDetails est null, on l'initialise
+        if ("series".equals(production.getType()) && production.getSeriesDetails() == null) {
+            production.setSeriesDetails(new Series());
+        }
+        
+        model.addAttribute("production", production);
+        model.addAttribute("artists", artistService.getAll());
+        model.addAttribute("countries", countryService.getAll());
+        
         return "admin/production/form";
     }
 
@@ -86,13 +123,6 @@ public class AdminProductionController {
         return "base";
     }
 
-    @GetMapping("/edit/{id}/")
-    public String formModif(@PathVariable int id) {
-        Production production = productionService.getById(id);
-        productionService.update(production);
-        return "admin/productions";
-    }
-
     @PostMapping("/edit/{id}/")
     public String modifier(
         @ModelAttribute Production production,
@@ -100,6 +130,7 @@ public class AdminProductionController {
         Model model
     ) {
         productionService.update(production);
+
         return "admin/productions";
     }
 

@@ -30,6 +30,11 @@
                 th:src="${production.posterUrl}"
                 th:alt="${'poster de ' + production.title}"
             />
+            <div th:if="${production.type == 'series' && production.seriesDetails != null}">
+                <p>Saisons : <span th:text="${production.seriesDetails.season}"></span></p>
+                <p>Épisodes : <span th:text="${production.seriesDetails.episode}"></span></p>
+                <p>Statut : <span th:text="${production.seriesDetails.status}"></span></p>
+            </div>
             <div th:if="${production.genres}" class="mb-3">
                 <h5>Genres:</h5>
                 <div th:each="genre : ${production.genres}" class="d-inline-block me-2 mb-2">

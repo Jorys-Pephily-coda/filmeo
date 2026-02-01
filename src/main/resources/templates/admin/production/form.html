@@ -12,9 +12,6 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         />
-
-        <!-- Custom CSS
-    <link th:href="@{/css/style.css}" rel="stylesheet">-->
     </head>
     <body>
         <!-- Navbar -->
@@ -26,195 +23,155 @@
                 <div class="col-md-8 offset-md-2">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0" th:if="${artist.id == null}">
-                                <i class="fas fa-plus-circle"></i> Add Artist
+                            <h4 class="mb-0" th:if="${production.id == null}">
+                                <i class="fas fa-plus-circle"></i> Add Production
                             </h4>
-                            <h4 class="mb-0" th:unless="${artist.id == null}">
-                                <i class="fas fa-edit"></i> Edit Artist
+                            <h4 class="mb-0" th:unless="${production.id == null}">
+                                <i class="fas fa-edit"></i> Edit Production
                             </h4>
                         </div>
                         <div class="card-body">
                             <form
-                                th:object="${artist}"
-                                th:action="@{/admin/artists/add}"
+                                th:object="${production}"
+                                th:action="@{/admin/productions/add}"
                                 method="post"
                                 class="needs-validation"
                                 novalidate
                             >
-                                <!-- Artist ID (hidden for edit) -->
                                 <input type="hidden" th:field="*{id}" />
 
-                                <!-- First Name -->
+                                <!-- Type (Movie or Series) -->
                                 <div class="mb-3">
-                                    <label for="firstname" class="form-label"
-                                        >First Name
-                                        <span class="text-danger"
-                                            >*</span
-                                        ></label
+                                    <label for="type" class="form-label">
+                                        Type <span class="text-danger">*</span>
+                                    </label>
+                                    <select
+                                        class="form-select"
+                                        id="type"
+                                        th:field="*{type}"
+                                        required
+                                        onchange="toggleSeriesFields()"
                                     >
+                                        <option value="">-- Select Type --</option>
+                                        <option value="movie">Movie</option>
+                                        <option value="series">Series</option>
+                                    </select>
+                                </div>
+
+                                <!-- Title -->
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">
+                                        Title <span class="text-danger">*</span>
+                                    </label>
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="firstname"
-                                        th:field="*{firstname}"
-                                        placeholder="Enter first name"
+                                        id="title"
+                                        th:field="*{title}"
+                                        placeholder="Enter title"
                                         required
                                     />
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('firstname')}"
-                                    >
-                                        <span th:errors="*{firstname}"></span>
-                                    </div>
                                 </div>
 
-                                <!-- Last Name -->
+                                <!-- Poster URL -->
                                 <div class="mb-3">
-                                    <label for="lastname" class="form-label"
-                                        >Last Name
-                                        <span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="lastname"
-                                        th:field="*{lastname}"
-                                        placeholder="Enter last name"
-                                        required
-                                    />
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('lastname')}"
-                                    >
-                                        <span th:errors="*{lastname}"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Picture URL -->
-                                <div class="mb-3">
-                                    <label for="pictureUrl" class="form-label"
-                                        >Picture URL</label
-                                    >
+                                    <label for="posterUrl" class="form-label">Poster URL</label>
                                     <input
                                         type="url"
                                         class="form-control"
-                                        id="pictureUrl"
-                                        th:field="*{pictureUrl}"
-                                        placeholder="https://example.com/image.jpg"
+                                        id="posterUrl"
+                                        th:field="*{posterUrl}"
+                                        placeholder="https://example.com/poster.jpg"
                                     />
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('pictureUrl')}"
-                                    >
-                                        <span th:errors="*{pictureUrl}"></span>
-                                    </div>
                                 </div>
 
-                                <!-- Birth Date -->
+                                <!-- Director -->
                                 <div class="mb-3">
-                                    <label for="birthDate" class="form-label"
-                                        >Birth Date</label
-                                    >
-                                    <input
-                                        type="date"
-                                        class="form-control"
-                                        id="birthDate"
-                                        th:field="*{birthDate}"
-                                    />
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('birthDate')}"
-                                    >
-                                        <span th:errors="*{birthDate}"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Death Date -->
-                                <div class="mb-3">
-                                    <label for="deathDate" class="form-label"
-                                        >Death Date</label
-                                    >
-                                    <input
-                                        type="date"
-                                        class="form-control"
-                                        id="deathDate"
-                                        th:field="*{deathDate}"
-                                    />
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('deathDate')}"
-                                    >
-                                        <span th:errors="*{deathDate}"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Gender -->
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label"
-                                        >Gender</label
-                                    >
+                                    <label for="director" class="form-label">Director</label>
                                     <select
                                         class="form-select"
-                                        id="gender"
-                                        th:field="*{gender}"
+                                        id="director"
+                                        th:field="*{director.id}"
                                     >
-                                        <option value="">
-                                            -- Select Gender --
-                                        </option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('gender')}"
-                                    >
-                                        <span th:errors="*{gender}"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Nationality -->
-                                <div class="mb-3">
-                                    <label for="nationality" class="form-label"
-                                        >Nationality</label
-                                    >
-                                    <select
-                                        class="form-select"
-                                        id="nationality"
-                                        th:field="*{nationality.id}"
-                                    >
-                                        <option value="">
-                                            -- Select Nationality --
-                                        </option>
+                                        <option value="">-- Select Director --</option>
                                         <option
-                                            th:if="${countries}"
+                                            th:each="artist : ${artists}"
+                                            th:value="${artist.id}"
+                                            th:text="${artist.firstname + ' ' + artist.lastname}"
+                                        ></option>
+                                    </select>
+                                </div>
+
+                                <!-- Producing Country -->
+                                <div class="mb-3">
+                                    <label for="producingCountry" class="form-label">Country</label>
+                                    <select
+                                        class="form-select"
+                                        id="producingCountry"
+                                        th:field="*{producingCountry.id}"
+                                    >
+                                        <option value="">-- Select Country --</option>
+                                        <option
                                             th:each="country : ${countries}"
                                             th:value="${country.id}"
                                             th:text="${country.name}"
                                         ></option>
                                     </select>
-                                    <div
-                                        class="invalid-feedback"
-                                        th:if="${#fields.hasErrors('nationality')}"
-                                    >
-                                        <span th:errors="*{nationality}"></span>
+                                </div>
+
+                                <!-- SERIES FIELDS (hidden by default) -->
+                                <div id="seriesFields" style="display: none;">
+                                    <h5 class="mt-4 mb-3 text-primary">
+                                        <i class="fas fa-tv"></i> Series Details
+                                    </h5>
+
+                                    <!-- Seasons -->
+                                    <div class="mb-3">
+                                        <label for="season" class="form-label">Number of Seasons</label>
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="season"
+                                            th:field="*{seriesDetails.season}"
+                                            placeholder="e.g., 5"
+                                            min="1"
+                                        />
+                                    </div>
+
+                                    <!-- Episodes -->
+                                    <div class="mb-3">
+                                        <label for="episode" class="form-label">Total Episodes</label>
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="episode"
+                                            th:field="*{seriesDetails.episode}"
+                                            placeholder="e.g., 62"
+                                            min="1"
+                                        />
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select
+                                            class="form-select"
+                                            id="status"
+                                            th:field="*{seriesDetails.status}"
+                                        >
+                                            <option value="">-- Select Status --</option>
+                                            <option value="ongoing">Ongoing</option>
+                                            <option value="finished">Finished</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <!-- Form Actions -->
-                                <div class="d-flex gap-2">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary"
-                                    >
-                                        <i class="fas fa-save"></i> Save Artist
+                                <div class="d-flex gap-2 mt-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Production
                                     </button>
-                                    <a
-                                        href="/admin/artists"
-                                        class="btn btn-secondary"
-                                    >
+                                    <a href="/admin/productions" class="btn btn-secondary">
                                         <i class="fas fa-times"></i> Cancel
                                     </a>
                                 </div>
@@ -228,7 +185,26 @@
         <!-- Footer -->
         <div th:replace="~{_partials/footer :: footer}"></div>
 
-        <!-- Bootstrap JS Bundle-->
+        <!-- Bootstrap JS Bundle -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Custom Script -->
+        <script>
+            function toggleSeriesFields() {
+                const type = document.getElementById('type').value;
+                const seriesFields = document.getElementById('seriesFields');
+                
+                if (type === 'series') {
+                    seriesFields.style.display = 'block';
+                } else {
+                    seriesFields.style.display = 'none';
+                }
+            }
+            
+            // Execute on page load (for edit mode)
+            document.addEventListener('DOMContentLoaded', function() {
+                toggleSeriesFields();
+            });
+        </script>
     </body>
 </html>
