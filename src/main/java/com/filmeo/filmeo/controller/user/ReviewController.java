@@ -10,6 +10,9 @@ import com.filmeo.filmeo.model.service.ArtistService;
 import com.filmeo.filmeo.model.service.ProductionReviewService;
 import com.filmeo.filmeo.model.service.ProductionService;
 import com.filmeo.filmeo.model.service.UserService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ReviewController {
@@ -196,5 +198,15 @@ public class ReviewController {
         review.setUser(getCurrentUser());
         pReviewService.update(review);
         return "redirect:/production/" + id;
+    }
+
+    @GetMapping("/user/reviews")
+    public String getReviews(Model model) {
+        User user = getCurrentUser();
+        List<ProductionReview> pReviews = pReviewService.getByUser(user);
+        List<ArtistReview> aReviews = aReviewService.getByUser(user);
+        model.addAttribute("pReviews", pReviews);
+        model.addAttribute("aReviews", aReviews);
+        return "user/reviews";
     }
 }

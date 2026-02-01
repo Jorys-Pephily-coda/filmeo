@@ -1,6 +1,7 @@
 package com.filmeo.filmeo.model.service;
 
 import com.filmeo.filmeo.model.entity.ArtistReview;
+import com.filmeo.filmeo.model.entity.User;
 import com.filmeo.filmeo.model.repository.ArtistReviewRepository;
 import java.util.List;
 import java.util.Optional;
@@ -30,5 +31,13 @@ public class ArtistReviewService {
 
     public void delete(ArtistReview artistReview) {
         artistReviewRepository.delete(artistReview);
+    }
+
+    public List<ArtistReview> getByUser(User user) {
+        return artistReviewRepository.findByUser(user);
+    }
+
+    public List<ArtistReview> getByUserId(Integer userId) {
+        return artistReviewRepository.findByUserId(userId);
     }
 }

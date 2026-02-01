@@ -38,6 +38,6 @@ public class BaseController {
     ) {
         User user = userService.getByUsername(userDetails.getUsername());
         model.addAttribute("user", user);
-        return "/user.html";
+        return "user/user.html";
     }
 }

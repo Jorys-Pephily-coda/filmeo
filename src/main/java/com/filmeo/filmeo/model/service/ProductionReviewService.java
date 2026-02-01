@@ -1,6 +1,7 @@
 package com.filmeo.filmeo.model.service;
 
 import com.filmeo.filmeo.model.entity.ProductionReview;
+import com.filmeo.filmeo.model.entity.User;
 import com.filmeo.filmeo.model.repository.ProductionReviewRepository;
 import java.util.List;
 import java.util.Optional;
@@ -29,5 +30,12 @@ public class ProductionReviewService {
 
     public void delete(ProductionReview productionReview) {
         productionReviewRepository.delete(productionReview);
+    }
+    public List<ProductionReview> getByUser(User user) {
+        return productionReviewRepository.findByUser(user);
+    }
+
+    public List<ProductionReview> getByUserId(Integer userId) {
+        return productionReviewRepository.findByUserId(userId);
     }
 }
